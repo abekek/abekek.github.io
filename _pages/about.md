@@ -8,7 +8,7 @@ redirect_from:
   - /about.html
 ---
 
-Glad you visited my page! My name is Alibek Kaliyev, and I am an international student from Kazakhstan studying <b>Computer Science and Business at Lehigh University.
+Glad you visited my page! My name is Alibek Kaliyev, and I am an international student from Kazakhstan studying Computer Science and Business at Lehigh University.
 Along with my passion for Machine/Deep Learning technologies and Software Engineering, I am trying to combine them, I am deeply interested in topics of
 Neuroscience, Cognitive Science and Philosophy. I believe that the link between the brain and AI is the thing that will shape the future of humanity.
 
