@@ -82,12 +82,12 @@ analytics:
 author:
   name             : "Alibek Kaliyev"
   avatar           : "alibek_photo.jpeg"
-  bio              : "Senior @Lehigh | Incoming SDE I @AWS"
+  bio              : "Software Engineer @AWS | Lehigh'24 Alum"
   location         : "New York City, NY, USA"
   employer         :
   pubmed           : 
   googlescholar    : "https://scholar.google.com/citations?user=vC2sauQAAAAJ&hl=en"
-  email            : "alibek.t.kaliyev@icloud.com"
+  email            : "alibek[dot]t[dot]kaliyev[at]icloud[dot]com"
   researchgate     :  # example: "https://www.researchgate.net/profile/yourprofile"
   uri              :
   bitbucket        :
