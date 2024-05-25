@@ -8,13 +8,17 @@ redirect_from:
   - /about.html
 ---
 
-Thank you for visiting my page! My name is Alibek Kaliyev, and I am an international student from Kazakhstan studying Computer Science and Business at Lehigh University.
+Hi, my name is Alibek! I am a Software Engineer with experience in ML and cloud technologies. I am also from a beautiful country of Kazakhstan 🇰🇿.
 
-Along with my passion for Machine/Deep Learning technologies and Software Engineering, I am deeply interested in topics related to Neuroscience, Cognitive Science, and Philosophy. I believe that the link between the brain and AI is the thing that will shape the future of humanity.
+Along with my passion for Machine/Deep Learning technologies and Software Engineering, I am deeply interested in topics related to Neuroscience, Cognitive Science, and Philosophy. I believe that the link between the brain and AI is what will shape the future of humanity.
 
-In addition to my academic pursuits, I am an avid martial artist with 15 years of experience in karate. Martial arts have taught me discipline, courage, persistence, and humility, and they play an important part in my life. I also enjoy reading books, playing guitar, and sharing my thoughts in my [blog on Telegram](https://t.me/abekek_notes).
+In addition to my academic pursuits, I am an avid martial artist with 15+ years of experience in karate (I am 2nd-degree black belt🥋). Martial arts have taught me discipline, courage, persistence, and humility, which are important in my life. I enjoy reading books, playing guitar, and sharing my thoughts in my [blog on Telegram](https://t.me/abekek_notes).
 
 ## News
+
+> June 17, 2024: Joining Amazon Web Services (AWS) as a full-time Software Development Engineer
+
+> May 19, 2024: I graduated with High Honors from Lehigh University with a Bachelor of Science in Computer Science and Business 👨‍🎓
 
 > Oct 27, 2023: My paper ["Rapid Fitting of Band-Excitation Piezoresponse Force Microscopy Using Physics Constrained Unsupervised Neural Networks"](https://neurips.cc/virtual/2023/78566) was accepted to NeurIPS 2023 AI for Materials Discovery Workshop in New Orleans, LA 🎉
 
