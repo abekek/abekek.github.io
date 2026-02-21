@@ -1191,10 +1191,16 @@ img {
     }
 
     .nav {
-        background: rgba(250, 248, 245, 0.92);
-        backdrop-filter: blur(16px);
-        -webkit-backdrop-filter: blur(16px);
+        background: #faf8f5;
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
         box-shadow: 0 1px 0 var(--border);
+    }
+
+    .nav.scrolled {
+        background: #faf8f5;
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
     }
 
     .nav-toggle {
@@ -1235,9 +1241,10 @@ img {
         position: fixed;
         top: 0;
         left: 0;
-        right: 0;
-        bottom: 0;
-        background: var(--bg-primary);
+        width: 100vw;
+        height: 100vh;
+        height: 100dvh;
+        background: #faf8f5;
         flex-direction: column;
         align-items: center;
         justify-content: center;
@@ -1262,7 +1269,8 @@ img {
         transition: background 0.2s, color 0.2s;
     }
 
-    .nav-links a:hover {
+    .nav-links a:hover,
+    .nav-links a:active {
         background: var(--bg-secondary);
         color: var(--accent);
     }
