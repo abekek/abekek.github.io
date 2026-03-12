@@ -840,6 +840,52 @@ img {
     border: 1px solid var(--border);
 }
 
+/* Featured project card */
+.project-card--featured {
+    background: var(--bg-card);
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    position: relative;
+}
+
+.project-card--featured::before {
+    background: linear-gradient(90deg, #3B82F6, #60A5FA, #93C5FD);
+    opacity: 1;
+    height: 3px;
+}
+
+.project-card--featured:hover {
+    border-color: rgba(59, 130, 246, 0.35);
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(59, 130, 246, 0.12);
+}
+
+.project-card--featured .project-label {
+    color: #3B82F6;
+}
+
+.project-card--featured .project-tech span {
+    background: rgba(59, 130, 246, 0.06);
+    border-color: rgba(59, 130, 246, 0.15);
+    color: #2563EB;
+}
+
+.project-card--featured .project-link {
+    color: #3B82F6 !important;
+    transition: color 0.2s;
+}
+
+.project-card--featured .project-link:hover {
+    color: #1D4ED8 !important;
+}
+
+.project-card__logo {
+    margin-bottom: 16px;
+}
+
+.project-card__logo img {
+    border-radius: 12px;
+}
+
 /* ========================================
    Research Section
    ======================================== */
