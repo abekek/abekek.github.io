@@ -98,8 +98,8 @@
 // Typewriter effect
 (function () {
     const roles = [
-        'SDE at Amazon Web Services',
-        'Founding Engineer on Quick Suite',
+        'ML Engineer at Point72',
+        'Previously SDE at AWS',
         'MS CS at UT Austin (4.0 GPA)',
         'Published at NeurIPS 2023',
         'From Kazakhstan, Based in NYC',
