@@ -152,8 +152,18 @@ h2 {
 .news {
     list-style: none;
     margin: 0;
-    padding: 0;
+    padding: 0 0 6px;
+    max-height: 340px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--rule) transparent;
+    mask-image: linear-gradient(to bottom, black 0, black calc(100% - 28px), transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, black 0, black calc(100% - 28px), transparent 100%);
 }
+
+.news::-webkit-scrollbar { width: 6px; }
+.news::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 3px; }
+.news::-webkit-scrollbar-track { background: transparent; }
 
 .news li {
     display: grid;
