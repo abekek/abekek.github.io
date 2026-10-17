@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Alibek Kaliyev</title>
-    <meta name="description" content="Alibek Kaliyev — machine learning engineer at Point72, New York. Previously AWS (Amazon Quick Suite). Research in ML for materials science.">
+    <meta name="description" content="Alibek Kaliyev — machine learning engineer at Point72, New York. Projects in agent tools and memory; research in agent evaluation and ML for materials science. Previously AWS.">
     <meta property="og:title" content="Alibek Kaliyev">
-    <meta property="og:description" content="Machine learning engineer at Point72, New York. Previously AWS.">
+    <meta property="og:description" content="Machine learning engineer at Point72. Building agent tools and memory systems; researching agent evaluation and ML for materials science.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://abekek.github.io">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -60,9 +60,45 @@
                 <img src="images/alibek_photo.jpeg" alt="Portrait of Alibek Kaliyev">
             </div>
         </div>
+        <nav class="section-nav" aria-label="Page sections">
+            <a href="#projects">Projects</a>
+            <a href="#research">Research</a>
+            <a href="#news">News</a>
+        </nav>
     </header>
 
-    <section>
+    <section id="projects" aria-labelledby="projects-heading">
+        <h2 id="projects-heading">Projects</h2>
+        <p class="section-intro">Tools for agents to remember past work, build new capabilities, and connect to everyday data.</p>
+        <ul class="work projects">
+            <li>
+                <p class="venue">Agent memory · Open source</p>
+                <h3><a href="https://github.com/abekek/personal-intelligence-system" target="_blank" rel="noopener">Personal Ledger</a></h3>
+                <p class="project-description">A searchable record of AI conversations, documents, and code changes. Captures work across sessions and makes past decisions available to assistants through MCP, using keyword and semantic search.</p>
+                <p class="links"><a href="https://github.com/abekek/personal-intelligence-system" target="_blank" rel="noopener">code &amp; architecture</a></p>
+            </li>
+            <li>
+                <p class="venue">Agent tools · Open source</p>
+                <h3><a href="https://github.com/abekek/arise" target="_blank" rel="noopener">ARISE</a></h3>
+                <p class="project-description">A Python library for agents that create their own tools. When an agent hits a capability gap, ARISE generates a tool, tests it in a sandbox, and adds it to a persistent library for later tasks.</p>
+                <p class="links"><a href="https://github.com/abekek/arise" target="_blank" rel="noopener">code</a> <span aria-hidden="true">·</span> <a href="https://github.com/abekek/strands-arise" target="_blank" rel="noopener">Strands integration</a></p>
+            </li>
+            <li>
+                <p class="venue">MCP integrations · Open source</p>
+                <h3>MCP connectors</h3>
+                <p class="project-description">Python servers that let assistants query data from Monarch Money and Oura. The Monarch connector provides read-only access to accounts, holdings, and transactions; the Oura connector exposes sleep, activity, and recovery data.</p>
+                <p class="links"><a href="https://github.com/abekek/monarch-mcp-python" target="_blank" rel="noopener">Monarch</a> <span aria-hidden="true">·</span> <a href="https://github.com/abekek/oura-mcp-python" target="_blank" rel="noopener">Oura</a></p>
+            </li>
+            <li>
+                <p class="venue">Developer tools · 2026</p>
+                <h3><a href="https://www.tryarchaic.com/" target="_blank" rel="noopener">Archaic AI</a></h3>
+                <p class="project-description">Co-founded a developer tool that turns complex codebases into clear, navigable system views.</p>
+                <p class="links"><a href="https://www.tryarchaic.com/" target="_blank" rel="noopener">tryarchaic.com</a></p>
+            </li>
+        </ul>
+    </section>
+
+    <section id="news">
         <h2>News</h2>
         <ul class="news">
             <li>
@@ -137,8 +173,8 @@
         </details>
     </section>
 
-    <section>
-        <h2>Selected Work</h2>
+    <section id="research">
+        <h2>Selected Research</h2>
         <ul class="work">
             <li>
                 <p class="venue">KDD 2026 · Workshop on Agentic AI Evaluation &amp; Trustworthiness</p>
@@ -163,12 +199,6 @@
                 <h3><a href="https://doi.org/10.1002/adma.202202814" target="_blank" rel="noopener">Why it is Unfortunate that Linear Machine Learning Models “Work” so well in Electromechanical Switching of Ferroelectric Thin Films</a></h3>
                 <p class="authors">S. Qin, Y. Guo, <span class="me">A.T. Kaliyev</span>, J.C. Agar</p>
                 <p class="links"><a href="https://doi.org/10.1002/adma.202202814" target="_blank" rel="noopener">paper</a></p>
-            </li>
-            <li>
-                <p class="venue">Project · 2026</p>
-                <h3><a href="https://www.tryarchaic.com/" target="_blank" rel="noopener">Archaic AI</a></h3>
-                <p class="authors">Co-founded a developer tool that turns complex codebases into clear, navigable system views.</p>
-                <p class="links"><a href="https://www.tryarchaic.com/" target="_blank" rel="noopener">tryarchaic.com</a></p>
             </li>
         </ul>
     </section>
