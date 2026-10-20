@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Building shared memory for my AI tools · Alibek Kaliyev</title>
+    <meta name="description" content="I wanted Claude and ChatGPT to share my project history. Building Personal Ledger, and fixing the old decisions it kept giving back to me.">
+    <meta property="og:title" content="Building shared memory for my AI tools">
+    <meta property="og:description" content="I wanted Claude and ChatGPT to share my project history. Building Personal Ledger, and fixing the old decisions it kept giving back to me.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://abekek.github.io/blog/personal-ledger/">
+    <link rel="canonical" href="https://abekek.github.io/blog/personal-ledger/">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/style.css?v=20261018-paper">
+    <link rel="stylesheet" href="../../css/ledger-essay.css?v=20261019-restored">
+    <link rel="stylesheet" href="../../assets/katex/katex.min.css">
+    <script defer src="../../assets/analytics.js?v=20261019"></script>
+</head>
+<body>
+<a class="skip-link" href="#article-text">Skip to article</a>
+<main id="content" class="essay-page" tabindex="-1">
+    <nav class="page-nav" aria-label="Site navigation">
+        <a href="../../">← Alibek Kaliyev</a>
+        <a href="../" aria-current="location">Blog</a>
+        <a href="https://alibekkaliyev.substack.com/">Substack ↗</a>
+    </nav>
+    <article class="ledger-essay">
+        <header class="writing-header">
+            <p class="venue">Personal Ledger</p>
+            <h1>Building shared memory for my AI tools</h1>
+            <p class="dek">I built an MCP server so Claude and ChatGPT could look up my past conversations.</p>
+            <p class="post-meta">Alibek Kaliyev · <time datetime="2026-10-17">October 17, 2026</time></p>
+        </header>
+        <div class="article-layout">
+        <aside class="article-sidebar">
+            <details class="article-contents" open>
+                <summary>In this article</summary>
+                <nav aria-label="Article sections">
+                    <a href="#beginning">Why I built it</a>
+                    <a href="#architecture">Storage and sources</a>
+                    <a href="#retrieval">Search</a>
+                    <a href="#recent">Stale decisions</a>
+                    <a href="#corrections">How corrections work</a>
+                    <a href="#feedback">Notes citing notes</a>
+                    <a href="#sources">Code references</a>
+                </nav>
+            </details>
+        </aside>
+        <div class="article-body" id="article-text" tabindex="-1">
+
+            <p>I use Claude Code, Claude, and ChatGPT for the same projects. Sometimes I’m working on my Mac, sometimes I’m talking through an idea on my phone. And every time I switch, I have to explain things I’ve already explained somewhere else. What the project does, what we tried, why we decided against something. The code is in the repo, but a lot of the thinking is in those chats.</p>
+            <p>In July, I started building <a href="https://github.com/abekek/personal-intelligence-system">Personal Ledger</a> with Claude Code. Basically, I wanted to put my conversations in one place and let any of these tools search them through MCP. I didn’t want to pick one assistant and stay there just because it had more of my history. Keeping a separate summary up to date for every project didn’t sound appealing either.</p>
+            <p>Getting the history into a database was only part of it. Once I started asking about my projects, the ledger sometimes returned an old decision with more confidence than the one that replaced it. It had the conversation where I changed my mind. It was still giving me the old answer.</p>
+
+            <h2 id="beginning">I wanted to use it from my phone too</h2>
+            <p>One of my early questions was where the database would live. Running everything locally was fine while building it, but I also wanted to use it from my phone with my Mac turned off. So the storage went on AWS, with an MCP server that the assistants could connect to.</p>
+            <p>The inputs needed different ways in. Coding sessions could send turns through a hook and a local outbox. Old chats came from account exports. For new conversations in Claude, I asked for a tool that could save a note directly through MCP. That let me save something without waiting for browser capture, although a note is only as complete as whatever the assistant decides to put in it.</p>
+            <p>I also wanted the files. If I’d uploaded a PDF and spent a conversation discussing it, saving “look at this PDF” without the PDF wasn’t going to help much later. Documents go into storage under a hash of their contents, and extracted text keeps references to the page or part it came from. If an attachment is missing, the importer records that instead of treating the conversation as complete.</p>
+
+            <h2 id="architecture">Keeping the conversations</h2>
+            <p>I wanted to keep the original conversations even if the summaries were wrong. Each imported message goes into an event ledger, where it can’t be edited or deleted. From there, normalizers build conversations and message revisions, and an extractor reads those conversations to produce shorter memories. If the extraction turns out to be bad, I can go back to the messages and run it again.</p>
+            <figure class="technical-figure" id="figure-architecture" aria-labelledby="architecture-caption">
+                <div class="figure-eyebrow">01 / How the pieces connect</div>
+                <div class="diagram-scroll" tabindex="0" role="region" aria-label="Scrollable architecture diagram"><a class="diagram-link" href="diagrams/architecture.svg" aria-label="Open the architecture diagram at full size"><img src="diagrams/architecture.svg" alt="Coding hooks and chat imports feed canonical events; documents feed an object store. Their projections and text chunks support hybrid search and extracted memories, which feed a context pack returned over MCP."></a></div><span class="diagram-hint">Scroll to inspect · tap to open full size</span>
+                <figcaption id="architecture-caption">The durable source records are shaded tan. Search indexes and extracted memories are derived views. Open any diagram to inspect it at full size.</figcaption>
+            </figure>
+
+            <p>The database enforces this by rejecting updates and deletes on the event ledger. Correcting a memory changes the derived record; it doesn’t rewrite what was said in the conversation.</p>
+            <p>The same message can come in more than once. A turn might arrive through a live hook, then again in an export or a retry. A SHA-256 content hash and a unique constraint catch duplicates, as long as the input is normalized consistently. The hash includes timestamps and metadata too. Give the same message a fresh timestamp on every import and it will look like a new event.</p>
+
+            <h2 id="retrieval">Finding a chat when I don’t remember the wording</h2>
+            <p>At one point I tried the connector and found out semantic search wasn’t there yet. We had the ingestion part, but I was already asking questions without remembering the exact words I’d used in the original chat. Being able to store everything wasn’t much use if I still had to know what to search for.</p>
+            <p>Exact lookup is still useful for an ID or a filename, and PostgreSQL full-text search handles words I do remember. For the rest, there’s pgvector. The hybrid search runs text and vector retrieval, then combines their results with reciprocal rank fusion:</p>
+            <div class="equation" tabindex="0" aria-label="Reciprocal rank fusion sums one divided by k plus rank over lists containing the document"><span data-tex="\operatorname{RRF}(d)=\sum_{\ell\, :\, d\in L_\ell}\frac{1}{k+r_\ell(d)},\qquad k=60"></span></div>
+            <p><span data-tex="r_\ell(d)" data-inline="true"></span> is the result’s rank in list <span data-tex="L_\ell" data-inline="true"></span>, starting at one. Each list that contains it adds a contribution to its score. Here’s the code, with result-object construction left out:</p>
+            <figure class="code-figure">
+                <figcaption><span>Python / rank fusion, shortened</span><a href="#sources">Source 1</a></figcaption>
+                <pre tabindex="0"><code class="language-python">scores = {}
+for results in result_lists:
+    for rank, hit in enumerate(results, start=1):
+        key = (hit.kind, hit.ref_id)
+        scores[key] = scores.get(key, 0.0) + 1 / (60 + rank)
+
+ranked = sorted(scores, key=scores.get, reverse=True)</code></pre>
+            </figure>
+            <div class="worked-example">
+                <p class="figure-eyebrow">A worked example / synthetic ranks</p>
+                <table>
+                    <thead><tr><th scope="col">Candidate</th><th scope="col">Text rank</th><th scope="col">Vector rank</th><th scope="col">RRF</th></tr></thead>
+                    <tbody>
+                        <tr><th scope="row">A</th><td>1</td><td>absent</td><td>0.01639</td></tr>
+                        <tr class="winner"><th scope="row">B</th><td>3</td><td>2</td><td>0.03200</td></tr>
+                        <tr><th scope="row">C</th><td>absent</td><td>1</td><td>0.01639</td></tr>
+                    </tbody>
+                </table>
+                <p class="caption">B wins because both searches rank it near the top. These are made-up ranks to show the calculation.</p>
+            </div>
+
+            <p>I like that this avoids having to make the text-search scores and vector similarities comparable. It uses the positions in each list. And if the query embedding is unavailable, full-text search can still return results.</p>
+            <p>But both searches can do their job and still leave me with the wrong context. The conversation where I chose an approach and the conversation where I abandoned it are both relevant to the same project.</p>
+
+            <h2 id="recent">It remembered a decision I had already changed</h2>
+            <p>For an assistant starting a task, I wanted something shorter than a pile of search results. The ledger extracts statements from conversations and puts them in a context pack, with references back to the evidence. The idea is that the assistant can get caught up without reading every chat first.</p>
+            <p>When I checked what was in one of these packs, it had an old project status and a newer one. The old statement had higher confidence. Some memories were repeated too. My reaction during debugging was: “why not just retrieve the recent memories??”</p>
+            <p>That helps if the last thing saved is the actual decision. But the last thing saved can also be an assistant repeating something outdated. Here’s a made-up example of the problem:</p>
+            <figure class="memory-example" aria-labelledby="memory-caption">
+                <div class="figure-eyebrow">A small example of the problem</div>
+                <ol class="memory-timeline">
+                    <li><span class="event-day">Monday / user</span><p>“Let’s use Redis for the cache.”</p><span class="state-label">A plan</span></li>
+                    <li><span class="event-day">Tuesday / user</span><p>“We’ll keep it in Postgres for now.”</p><span class="state-label good">A changed decision</span></li>
+                    <li><span class="event-day">Wednesday / assistant note</span><p>“The project uses Redis.”</p><span class="state-label bad">Newer text, older information</span></li>
+                </ol>
+                <div class="memory-answer"><span>Sort by newest</span><strong>Redis</strong><span class="answer-arrow" aria-hidden="true">→</span><span>Follow the decision</span><strong class="good-text">Postgres</strong></div>
+                <figcaption id="memory-caption">Illustrative software example, not a transcript. The failure is that the newest record repeats an older state.</figcaption>
+            </figure>
+            <p>I’d want Tuesday’s decision here. Wednesday adds no new information; the assistant is repeating Monday. A high confidence score on Monday’s memory doesn’t help either. The extractor can be confident about what I said and still be giving me a decision I’ve changed.</p>
+
+            <h3 id="corrections">The fix: mark the old decision as superseded</h3>
+            <p>The fix is to record that one memory replaces another. The old one gets <code>status = 'superseded'</code>. The replacement stays <code>current</code> and points to the old memory through <code>supersedes_memory_id</code>. The context pack leaves out superseded memories. It also checks authority, so an unsupported assistant assertion doesn’t get treated as a current fact.</p>
+            <p>After resolving that example, this is what should be left:</p>
+            <div class="worked-example state-example">
+                <table>
+                    <caption>Illustrative result after resolving the change</caption>
+                    <thead><tr><th scope="col">Memory</th><th scope="col">Recorded state</th><th scope="col">In the pack?</th></tr></thead>
+                    <tbody>
+                        <tr><th scope="row">Monday: use Redis</th><td><code>superseded</code></td><td>No</td></tr>
+                        <tr class="winner"><th scope="row">Tuesday: use Postgres</th><td><code>current</code>, with evidence from the user’s decision</td><td>Yes</td></tr>
+                        <tr><th scope="row">Wednesday: Redis note</th><td><code>asserted</code> authority</td><td>No</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <p>These are the two filters in the context-pack query. I’ve left out the search and project-scoping conditions:</p>
+            <figure class="code-figure">
+                <figcaption><span>SQL / context-pack filter</span><a href="#sources">Source 1</a></figcaption>
+                <pre tabindex="0"><code class="language-sql">SELECT memory_id, statement, authority, last_confirmed_at
+FROM memory_items
+WHERE status = 'current'
+  AND authority != 'asserted';</code></pre>
+            </figure>
+            <p>Now Postgres is the only eligible memory. I can still search for the Redis discussion if I want to know how we got there. It just stops being part of the answer to what we’re using now.</p>
+
+            <h3>Catching the change automatically</h3>
+            <p>Of course, those fields have to be set correctly first. During extraction, the system finds the closest existing memory by embedding similarity. At a cosine similarity of 0.86 or higher, it treats the new statement as a duplicate. If the closest match is current and the score is at least 0.70 but below 0.86, it asks an LLM whether the pair is <code>duplicate</code>, <code>supersedes</code>, or <code>distinct</code>. A <code>supersedes</code> result creates the link and changes the old status. Repair passes do similar checks on memories already in the database.</p>
+            <p>I’m not fully happy with this part. A changed decision can score above 0.86 and get discarded as a duplicate without reaching the LLM. A related statement below 0.70 misses the comparison entirely. And even inside that range, the LLM can get it wrong. If it misses a replacement, the old memory stays current and passes the SQL filter we just added.</p>
+            <p>So I also need a way to correct it myself. <code>kb_correct_memory</code> takes the old memory ID and my corrected statement. It saves the correction as a source event, creates a <code>current</code>, <code>user_confirmed</code> replacement, and marks the old memory <code>superseded</code>. There’s no LLM deciding whether to accept that correction:</p>
+            <figure class="technical-figure correction-figure" id="figure-correction" aria-labelledby="correction-caption">
+                <div class="figure-eyebrow">02 / What an explicit correction changes</div>
+                <div class="diagram-scroll" tabindex="0" role="region" aria-label="Scrollable correction diagram"><a class="diagram-link" href="diagrams/correction.svg" aria-label="Open the correction diagram at full size"><img src="diagrams/correction.svg" alt="A user correction is stored as a source event and supports a new current, user-confirmed memory. The new memory supersedes the old one. Both source events remain in the ledger, while the context pack excludes the superseded memory."></a></div><span class="diagram-hint">Scroll to inspect · tap to open full size</span>
+                <figcaption id="correction-caption">The current view changes while the evidence for both versions remains available. This depicts an explicit user correction, not automatic conflict resolution.</figcaption>
+            </figure>
+            <p>I asked whether anything had been deleted while we were fixing this. Both versions and their evidence are still there, which is what I wanted. I might disagree with the old answer and still want to read the discussion that produced it.</p>
+
+            <h2 id="feedback">The source was the assistant’s own note</h2>
+            <p>Another bad memory led back to a QA note the assistant had written. The extractor had read the note and turned it into a fact. I followed the source ID expecting to find the conversation that supported the claim, and got the assistant’s own summary.</p>
+            <p>The assistant saves a note, the extractor turns it into a memory, and the next answer cites that memory. Save another note from that answer and the same claim comes around again:</p>
+            <figure class="technical-figure feedback-figure" id="figure-feedback" aria-labelledby="feedback-caption">
+                <div class="figure-eyebrow">03 / When a summary becomes evidence</div>
+                <div class="diagram-scroll" tabindex="0" role="region" aria-label="Scrollable feedback diagram"><a class="diagram-link" href="diagrams/feedback.svg" aria-label="Open the feedback diagram at full size"><img src="diagrams/feedback.svg" alt="An assistant note is extracted into a memory and cited in another answer, which can generate another note. Inspecting the source chain identifies note-only claims and keeps them at asserted authority."></a></div><span class="diagram-hint">Scroll to inspect · tap to open full size</span>
+                <figcaption id="feedback-caption">Following this chain leads back to the assistant’s note. Repeated extraction adds no independent evidence.</figcaption>
+            </figure>
+
+            <p>This is why the query excludes <code>asserted</code> authority. The extractor now skips streams made entirely of manually captured notes, and a repair pass retracts existing memories supported only by those notes. The notes themselves remain searchable. Some of them are useful summaries; I just don’t want their existence to count as evidence that the assistant was right.</p>
+            <p>Debugging added another awkward source of bad memories. I’d show the assistant an incorrect statement and ask it to fix it. Now the bad statement was in a conversation too. If extraction picked up the quote and missed the fact that I was disputing it, we could end up saving the same error again.</p>
+            <p>For now, context packs exclude memories from the ledger’s own development sessions unless the query is about the ledger. That exception uses keywords, so rephrasing a query can change what gets through. It also doesn’t solve the general problem of telling a quoted claim from something I actually believe.</p>
+
+            <h3 id="repair-gap">The current answer disappeared too</h3>
+            <p>After filtering out weak evidence, I checked again. The misleading result was gone, but so was the pack’s only account of the project’s current state. The original conversations still had the information. Extraction hadn’t recovered a replacement from them.</p>
+            <p>So now it wasn’t giving me the old answer, but it couldn’t give me the current one either. A test that only checked whether the bad memory disappeared would have passed. I needed to check that the replacement was there too, and that its evidence led back to the original conversations.</p>
+
+            <h2 id="next">Where I am with it</h2>
+            <p>I used the ledger while writing this post to find the early development conversations, including my questions about phone access and where the database would live. I didn’t remember which session they were in. That is already useful to me.</p>
+            <p>What I haven’t measured is how much it improves the assistant’s work after it gets that context. I want to start with projects where I changed a decision and check whether the pack returns the replacement with the right evidence. I also need cases where two similar statements are both valid, because automatically marking one as outdated would make things worse.</p>
+            <p>For now I still open the source when a remembered fact matters. I can correct a bad memory without losing the conversation, but I don’t yet trust the extraction to catch every change on its own.</p>
+
+            <details class="source-details" id="sources" open>
+                <summary>Code behind this post <span>5 pinned references</span></summary>
+                <p class="caption">Implementation links point to public revision <code>f8d19f1</code>. The cache-decision timeline, resolved-state table, and ranking table are illustrative. The failure descriptions were checked against the development history and code.</p>
+                <ol class="article-sources">
+                    <li><a href="https://github.com/abekek/personal-intelligence-system/blob/f8d19f16c9d4c32d1e066694590709b4ea0c04f8/src/pis/retrieval/search.py">Search, rank fusion, and context-pack filters</a></li>
+                    <li><a href="https://github.com/abekek/personal-intelligence-system/blob/f8d19f16c9d4c32d1e066694590709b4ea0c04f8/src/pis/curation.py">Memory correction and retraction</a></li>
+                    <li><a href="https://github.com/abekek/personal-intelligence-system/blob/f8d19f16c9d4c32d1e066694590709b4ea0c04f8/src/pis/schemas/events.py">Canonical event hashes</a></li>
+                    <li><a href="https://github.com/abekek/personal-intelligence-system/blob/f8d19f16c9d4c32d1e066694590709b4ea0c04f8/src/pis/extraction/hygiene.py">Note-only memories and repair passes</a></li>
+                    <li><a href="https://github.com/abekek/personal-intelligence-system/blob/f8d19f16c9d4c32d1e066694590709b4ea0c04f8/src/pis/extraction/extractor.py">Extraction, similarity thresholds, and supersession decisions</a></li>
+                </ol>
+            </details>
+            <p class="article-end"><a href="../">← All writing</a> · <a href="https://github.com/abekek/personal-intelligence-system">Code on GitHub</a> · <a href="https://alibekkaliyev.substack.com/">Substack ↗</a></p>
+        </div>
+        </div>
+    </article>
+
+    <footer class="site-footer"><p>Alibek Kaliyev · New York</p>
+        <p class="site-disclaimer">This is my personal website. Views are my own and do not represent my employer. Personal projects and writing here are separate from my work.</p></footer>
+</main>
+</body>
+</html>

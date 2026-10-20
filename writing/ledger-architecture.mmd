@@ -1,0 +1,24 @@
+flowchart TB
+  subgraph inputs["CAPTURE"]
+    direction LR
+    A["Coding sessions<br/>hook + SQLite outbox"]
+    B["Chat exports<br/>and MCP notes"]
+    C["Documents<br/>PDF, DOCX, text"]
+  end
+  A --> D[("Canonical events<br/>stable content hash")]
+  B --> D
+  C --> E[("Object store<br/>hash of file bytes")]
+  D --> F["Conversations + messages<br/>rebuildable projections"]
+  E --> G["Text chunks<br/>page / part references"]
+  F --> H["PostgreSQL full-text + pgvector<br/>candidate retrieval"]
+  G --> H
+  F --> I["Extracted memories<br/>authority · status · evidence"]
+  I --> J["Context pack<br/>current memories + conversations"]
+  H --> J
+  J --> K["Assistant over MCP<br/>can follow references to sources"]
+  classDef durable fill:#eee4d3,stroke:#9a4e2e,stroke-width:1.5px,color:#26221c;
+  classDef derived fill:#f7f3ec,stroke:#b8ad9b,color:#26221c;
+  classDef output fill:#e5ebe3,stroke:#637b66,color:#243c29;
+  class D,E durable;
+  class A,B,C,F,G,H,I derived;
+  class J,K output;

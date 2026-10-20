@@ -1,0 +1,13 @@
+flowchart TB
+  A["Original conversation<br/>a tentative plan"] --> B["Assistant writes a note<br/>the plan sounds settled"]
+  B --> C["Later extraction reads the note<br/>and creates a memory"]
+  C --> D["A new answer cites that memory<br/>the claim now looks established"]
+  D -. "another note" .-> B
+  C --> E["Inspect the evidence chain<br/>is there an independent source?"]
+  E --> F["Note-only claim stays asserted<br/>not promoted to observed fact"]
+  classDef normal fill:#f7f3ec,stroke:#b8ad9b,color:#26221c;
+  classDef risk fill:#f2e0d7,stroke:#9a4e2e,color:#63341f;
+  classDef gate fill:#e5ebe3,stroke:#637b66,color:#243c29;
+  class A normal;
+  class B,C,D risk;
+  class E,F gate;

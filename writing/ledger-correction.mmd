@@ -1,0 +1,22 @@
+flowchart TB
+  subgraph history["SOURCE EVENTS · retained"]
+    direction LR
+    E1["Original discussion"]
+    E2["User correction<br/>stored as a new event"]
+  end
+  subgraph memories["DERIVED MEMORIES · updated"]
+    direction LR
+    M1["Old memory<br/>status: superseded"]
+    M2["Replacement memory<br/>status: current<br/>authority: user_confirmed"]
+    M2 -. "supersedes" .-> M1
+  end
+  E1 -->|"evidence"| M1
+  E2 -->|"evidence"| M2
+  M2 --> P["Context pack<br/>eligible replacement"]
+  M1 -. "excluded by status" .-> X["Available for inspection<br/>outside the current view"]
+  classDef source fill:#eee4d3,stroke:#8a8175,color:#26221c;
+  classDef old fill:#f2e0d7,stroke:#9a4e2e,color:#63341f;
+  classDef current fill:#e5ebe3,stroke:#637b66,color:#243c29;
+  class E1,E2 source;
+  class M1,X old;
+  class M2,P current;

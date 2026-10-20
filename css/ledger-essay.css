@@ -1,0 +1,128 @@
+/* Article-only figures, code, and math. All article figures and equations render without JavaScript. */
+.ledger-essay .writing-header h1 { max-width: 18ch; }
+.ledger-essay .article-body { margin-top: 46px; }
+.ledger-essay .article-body h2 { margin-top: 60px; font-size: 30px; }
+.ledger-essay figure { margin: 32px 0; }
+.ledger-essay figcaption { font-size: 14px; line-height: 1.5; color: var(--ink-soft); margin-top: 14px; }
+.ledger-essay .figure-eyebrow { font-family: var(--mono); font-size: 10.5px; letter-spacing: .07em; text-transform: uppercase; color: var(--accent); margin: 0 0 20px; }
+.memory-example { border: 1px solid var(--rule); padding: 24px; background: #f4efe6; }
+.memory-timeline { padding: 0; list-style: none; margin: 0; }
+.memory-timeline li { position: relative; padding: 0 0 26px 24px; border-left: 1px solid #c3b6a2; }
+.memory-timeline li::before { content: ''; width: 7px; height: 7px; background: var(--accent); border: 3px solid #f4efe6; box-sizing: content-box; position: absolute; left: -7px; top: 3px; border-radius: 50%; }
+.memory-timeline li:last-child { padding-bottom: 0; }
+.event-day { display: block; font-family: var(--mono); font-size: 10px; color: var(--ink-soft); text-transform: uppercase; letter-spacing: .04em; }
+.ledger-essay .memory-timeline p { margin: 4px 0; font-size: 21px; line-height: 1.4; }
+.state-label { font-family: var(--mono); font-size: 10px; color: var(--ink-soft); }
+.state-label.good, .good-text { color: #365b40; }
+.state-label.bad { color: #974228; }
+.memory-answer { display: grid; grid-template-columns: 1fr auto 32px 1fr auto; align-items: baseline; gap: 10px; border-top: 1px solid var(--rule); margin-top: 22px; padding-top: 16px; }
+.memory-answer span { font-size: 13px; line-height: 1.4; }
+.memory-answer strong { font-size: 18px; }
+.answer-arrow { text-align: center; }
+.technical-figure { border-block: 1px solid var(--rule); padding: 22px 0; }
+.ledger-essay .code-figure { border: 1px solid var(--rule); background: #f0ebe2; }
+.ledger-essay .code-figure figcaption { display: flex; justify-content: space-between; gap: 16px; padding: 12px 18px; margin: 0; font-family: var(--mono); font-size: 10px; border-bottom: 1px solid var(--rule); }
+.ledger-essay .code-figure pre { background: none; border: 0; margin: 0; padding: 18px; }
+.ledger-essay .code-figure code { font-size: 12px; line-height: 1.85; }
+.ledger-essay pre:focus-visible,.equation:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+.hljs { color: #3b3832; }
+.hljs-keyword, .hljs-built_in { color: #8b3c28; }
+.hljs-string { color: #386546; }
+.hljs-number, .hljs-literal { color: #385e85; }
+.hljs-title, .hljs-type { color: #6d4c86; }
+.hljs-comment { color: #756d61; font-style: italic; }
+.hljs-meta { color: #8b3c28; }
+.equation { border-block: 1px solid var(--rule); padding: 22px 8px; margin: 28px 0; overflow-x: auto; font-size: 16px; }
+.equation .katex-display { margin: 0; }
+.worked-example { margin: 30px 0; }
+.worked-example table { border-collapse: collapse; width: 100%; font-size: 14px; line-height: 1.5; }
+.worked-example th,.worked-example td { text-align: left; padding: 12px 10px; border-bottom: 1px solid var(--rule); }
+.worked-example thead th { font-family: var(--mono); font-size: 10px; font-weight: 400; color: var(--ink-soft); }
+.worked-example td:last-child { font-family: var(--mono); font-size: 12px; }
+.worked-example .winner { background: #e5ebe3; }
+.ledger-essay .worked-example .caption { margin-top: 14px; }
+.source-details { margin-top: 48px; padding: 20px 0; border-block: 1px solid var(--rule); }
+.source-details summary { cursor: pointer; font-size: 18px; }
+.source-details summary span { color: var(--ink-soft); font-family: var(--mono); font-size: 10px; margin-left: 10px; white-space: nowrap; }
+.source-details[open] summary { margin-bottom: 20px; }
+@media(max-width:640px) {
+    .ledger-essay .writing-header h1 { font-size: 40px; }
+    .ledger-essay .article-body h2 { font-size: 27px; }
+    .memory-example { padding: 18px; }
+    .ledger-essay .memory-timeline p { font-size: 19px; }
+    .memory-answer { grid-template-columns: 1fr auto; }
+    .memory-answer .answer-arrow { display: none; }
+    .equation { font-size: 12px; }
+    .code-figure figcaption { flex-wrap: wrap; }
+    .worked-example th,.worked-example td { padding: 10px 5px; }
+}
+.ledger-essay .code-figure pre { font-size: 12px; line-height: 1.85; }
+
+.engineering-aside { margin: 28px 0 38px; padding: 18px 20px; border: 1px solid var(--rule); }
+.engineering-aside summary { cursor: pointer; font-size: 17px; color: var(--accent); line-height: 1.5; }
+.engineering-aside[open] summary { margin-bottom: 22px; }
+.engineering-aside > p:last-child { margin-bottom: 0; }
+.ledger-essay h3[id] { scroll-margin-top: 24px; }
+
+/* Long-form engineering layout: reading column and section navigation. */
+.essay-page { max-width: 1120px; }
+.ledger-essay .writing-header { max-width: 820px; margin: 0 0 44px; }
+.ledger-essay .writing-header h1 { font-family: var(--serif); font-size: clamp(38px, 4.5vw, 52px); font-weight: 500; letter-spacing: -.015em; line-height: 1.12; max-width: 20ch; }
+.ledger-essay .writing-header .dek { max-width: 62ch; font-size: 21px; margin: 20px 0; }
+.post-meta { font-family: var(--mono); font-size: 13px; }
+.article-layout { display: grid; grid-template-columns: minmax(0, 736px) minmax(160px, 1fr); gap: 64px; align-items: start; }
+.article-sidebar { grid-column: 2; grid-row: 1; position: sticky; top: 28px; }
+.ledger-essay .article-body { grid-column: 1; grid-row: 1; margin-top: 0; min-width: 0; font-size: 20px; line-height: 1.65; }
+.article-contents { font-family: var(--mono); font-size: 13px; line-height: 1.45; }
+.article-contents summary { font-weight: 600; cursor: pointer; padding: 8px 0; }
+.article-contents nav { display: grid; margin-top: 8px; }
+.article-contents a { color: var(--ink-soft); border: 0; border-left: 1px solid var(--rule); padding: 9px 0 9px 16px; }
+.article-contents a:hover { color: var(--accent); border-left-color: var(--accent); }
+.ledger-essay .article-body h2 { font-family: var(--serif); font-size: 30px; letter-spacing: 0; line-height: 1.25; font-weight: 500; margin-top: 52px; }
+.ledger-essay .article-body h3 { font-family: var(--serif); font-size: 21px; line-height: 1.4; font-weight: 500; }
+.ledger-essay .figure-eyebrow, .event-day, .state-label { font-family: var(--mono); font-size: 12px; text-transform: none; letter-spacing: 0; }
+.ledger-essay .figure-eyebrow { color: var(--ink-soft); margin-bottom: 18px; }
+.ledger-essay figcaption { font-family: var(--serif); font-size: 14px; }
+.ledger-essay .code-figure { background: #f0ebe2; border: 1px solid var(--rule); overflow: hidden; }
+.ledger-essay .code-figure figcaption { font-family: var(--mono); font-size: 13px; background: transparent; padding: 12px 18px; }
+.ledger-essay .code-figure pre, .ledger-essay .code-figure code { font-size: 13px; line-height: 1.8; }
+.ledger-essay .code-figure pre { padding: 20px; }
+.worked-example table { font-family: var(--serif); font-size: 14px; font-variant-numeric: tabular-nums; }
+.worked-example thead th { font-family: var(--mono); font-size: 12px; background: transparent; }
+.worked-example caption { font-size: 13px; text-align: left; color: var(--ink-soft); padding-bottom: 12px; }
+.worked-example .caption { font-family: var(--serif); font-size: 14px; }
+.source-details summary, .engineering-aside summary { font-family: var(--serif); font-size: 18px; }
+.source-details summary span { font-family: var(--mono); font-size: 12px; }
+.article-sources { font-family: var(--serif); font-size: 15px; }
+@media(max-width: 1000px) {
+    .essay-page { max-width: 800px; }
+    .article-layout { display: block; }
+    .article-sidebar { position: static; margin-bottom: 32px; }
+    .article-contents { border-block: 1px solid var(--rule); padding: 12px 0; }
+    .article-contents nav { grid-template-columns: 1fr 1fr; gap: 0 24px; }
+    .article-contents a { border-left: 0; padding: 9px 0; }
+}
+@media(max-width: 640px) {
+    .essay-page { padding-top: 28px; }
+    .ledger-essay .writing-header h1 { font-size: 40px; }
+    .ledger-essay .writing-header .dek { font-size: 20px; }
+    .ledger-essay .writing-header { margin-bottom: 28px; }
+    .ledger-essay .article-body { font-size: 19px; }
+    .ledger-essay .article-body h2 { font-size: 25px; }
+    .ledger-essay .article-body h3 { font-size: 20px; }
+    .memory-example { padding: 18px; }
+    .ledger-essay .code-figure pre { padding: 16px; }
+    .worked-example table { font-size: 13px; }
+}
+
+.diagram-link { display: block; border: 0; }
+.diagram-link img { display: block; width: 100%; height: auto; }
+.feedback-figure img { max-width: 550px; margin: 0 auto; }
+.diagram-scroll { overflow-x: auto; }
+.diagram-scroll:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+.diagram-hint { display: none; font-family: var(--mono); color: var(--ink-soft); font-size: 12px; }
+@media(max-width:640px) {
+    .technical-figure .diagram-link img { min-width: 620px; }
+    .feedback-figure .diagram-link img { min-width: 450px; }
+    .diagram-hint { display: block; margin-top: 12px; }
+}

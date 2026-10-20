@@ -1,0 +1,14 @@
+sequenceDiagram
+    participant C as Client
+    participant S as Ingestion API
+    participant D as PostgreSQL
+    C->>S: Upload document, hash = h
+    S->>D: Begin insert
+    Note over C,S: Client times out, server keeps working
+    C->>S: Retry the same document
+    D-->>S: First transaction commits
+    S->>D: Retry inserts the same h
+    D-->>S: Unique constraint rejects duplicate
+    S->>D: Roll back and look up h
+    D-->>S: Existing artifact
+    S-->>C: status = duplicate

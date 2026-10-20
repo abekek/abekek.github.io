@@ -12,10 +12,12 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style.css?v=20261018-paper">
+    <script defer src="assets/analytics.js?v=20261019"></script>
 </head>
 <body>
-<main>
+<a class="skip-link" href="#content">Skip to content</a>
+<main id="content" tabindex="-1">
 
     <header class="intro">
         <h1>Alibek Kaliyev</h1>
@@ -51,6 +53,8 @@
                     <span aria-hidden="true">·</span>
                     <a href="https://x.com/alibek_kaliyev" target="_blank" rel="noopener">X</a>
                     <span aria-hidden="true">·</span>
+                    <a href="https://alibekkaliyev.substack.com/" target="_blank" rel="noopener">Substack</a>
+                    <span aria-hidden="true">·</span>
                     <a href="https://linkedin.com/in/abekek" target="_blank" rel="noopener">LinkedIn</a>
                     <span aria-hidden="true">·</span>
                     <a href="files/alibek_kaliyev_cv.pdf" target="_blank" rel="noopener">CV</a>
@@ -61,11 +65,34 @@
             </div>
         </div>
         <nav class="section-nav" aria-label="Page sections">
+            <a href="#blog">Blog</a>
             <a href="#projects">Projects</a>
             <a href="#research">Research</a>
             <a href="#news">News</a>
         </nav>
     </header>
+
+    <section id="blog" aria-labelledby="blog-heading">
+        <div class="section-heading">
+            <h2 id="blog-heading">Blog</h2>
+            <a href="blog/">All writing →</a>
+        </div>
+        <p class="section-intro">I write about what I’m working on and things I’m trying to understand.</p>
+        <ul class="work writing-list">
+            <li>
+                <p class="venue">October 17, 2026</p>
+                <h3><a href="blog/personal-ledger/">Building shared memory for my AI tools</a></h3>
+                <p class="project-description">I wanted Claude and ChatGPT to share my project history. Then I had to deal with the old decisions they kept giving back to me.</p>
+                <p class="links"><a href="blog/personal-ledger/">Read the post →</a></p>
+            </li>
+            <li>
+                <p class="venue">Essay · September 6, 2026 · Substack</p>
+                <h3><a href="https://alibekkaliyev.substack.com/p/ai-is-not-one-big-bet-on-llms">AI Is Not One Big Bet on LLMs</a></h3>
+                <p class="project-description">Six research camps are making different bets about what intelligence needs.</p>
+                <p class="links"><a href="https://alibekkaliyev.substack.com/p/ai-is-not-one-big-bet-on-llms">Read on Substack ↗</a></p>
+            </li>
+        </ul>
+    </section>
 
     <section id="projects" aria-labelledby="projects-heading">
         <h2 id="projects-heading">Projects</h2>
@@ -75,7 +102,7 @@
                 <p class="venue">Agent memory · Open source</p>
                 <h3><a href="https://github.com/abekek/personal-intelligence-system" target="_blank" rel="noopener">Personal Ledger</a></h3>
                 <p class="project-description">A searchable record of AI conversations, documents, and code changes. Captures work across sessions and makes past decisions available to assistants through MCP, using keyword and semantic search.</p>
-                <p class="links"><a href="https://github.com/abekek/personal-intelligence-system" target="_blank" rel="noopener">code &amp; architecture</a></p>
+                <p class="links"><a href="https://github.com/abekek/personal-intelligence-system" target="_blank" rel="noopener">code &amp; architecture</a> <span aria-hidden="true">·</span> <a href="blog/personal-ledger/">technical walkthrough</a></p>
             </li>
             <li>
                 <p class="venue">Agent tools · Open source</p>
@@ -205,6 +232,7 @@
 
     <footer class="site-footer">
         <p>Alibek Kaliyev · New York</p>
+        <p class="site-disclaimer">This is my personal website. Views are my own and do not represent my employer. Personal projects and writing here are separate from my work.</p>
     </footer>
 
 </main>
