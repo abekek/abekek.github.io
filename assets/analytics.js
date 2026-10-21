@@ -1,16 +1,13 @@
-// Public collection URL; only the published site records page views.
+// Count visits only on the published personal site.
 (() => {
-    const endpoint = 'https://abekek.goatcounter.com/count';
-    if (!endpoint || window.location.hostname !== 'alibekkaliyev.com') return;
+    if (window.location.hostname !== 'alibekkaliyev.com') return;
 
-    window.goatcounter = {
-        path: window.location.pathname.replace(/\/index\.html$/, '/'),
-        no_events: true,
+    window.va = window.va || function () {
+        (window.vaq = window.vaq || []).push(arguments);
     };
 
     const script = document.createElement('script');
-    script.src = 'https://gc.zgo.at/count.js';
-    script.async = true;
-    script.dataset.goatcounter = endpoint;
+    script.src = '/_vercel/insights/script.js';
+    script.defer = true;
     document.head.appendChild(script);
 })();

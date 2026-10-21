@@ -15,6 +15,6 @@ The production site is https://alibekkaliyev.com on the Vercel project `alibekka
 
 `node scripts/build-site.cjs` assembles only public website assets in `dist/`. Vercel runs this automatically; article HTML must be regenerated separately when its template changes.
 
-Deploy with `npx vercel --prod --scope alibeks-projects-45fdaf8f` from the linked checkout. Automatic Git deployments are not configured: the Vercel GitHub integration needs access to this repository.
+Push to `master` to deploy automatically through the Vercel GitHub app. For a manual deployment, run `npx vercel --prod --scope alibeks-projects-45fdaf8f` from the linked checkout.
 
-GitHub Pages remains on `master` and serves browser redirects for the personal homepage and blog. `assets/legacy-redirect.js` preserves the path, query, and fragment; the separate research project site remains on GitHub Pages. GoatCounter records only visits to the production custom domain.
+GitHub Pages remains on `master` and serves browser redirects for the personal homepage and blog. `assets/legacy-redirect.js` preserves the path, query, and fragment; the separate research project site remains on GitHub Pages. Vercel Web Analytics records only visits to the production custom domain.
