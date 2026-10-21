@@ -1,0 +1,10 @@
+.agents/
+.claude/
+.impeccable/
+PRODUCT.md
+docs/
+skills-lock.json
+writing/
+scripts/node_modules/
+_site/
+dist/

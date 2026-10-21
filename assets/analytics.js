@@ -1,7 +1,7 @@
 // Public collection URL; only the published site records page views.
 (() => {
     const endpoint = 'https://abekek.goatcounter.com/count';
-    if (!endpoint || window.location.hostname !== 'abekek.github.io') return;
+    if (!endpoint || window.location.hostname !== 'alibekkaliyev.com') return;
 
     window.goatcounter = {
         path: window.location.pathname.replace(/\/index\.html$/, '/'),
